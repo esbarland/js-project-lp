@@ -20,13 +20,13 @@ module.exports = function(host, port) {
     /**
      * Request get one car
      */
-    function findOne(){
+    function findOne(id){
         var options =  {
             method: 'get',
         };
 
         return new Promise((resolve, reject) => {
-            fetch(`http://${host}:${port}/api/cars`, options)
+            fetch(`http://${host}:${port}/api/cars/${id}`, options)
                 .then((response) => {
                     resolve(response.json());
                 })
@@ -37,10 +37,10 @@ module.exports = function(host, port) {
     /**
      * Request Post add a new car
      */
-    function add() {
+    function add(name, fuelType, year) {
         var options =  {
             method: 'post',
-            body: JSON.stringify({eee: "uuuuu"})
+            body: JSON.stringify({name: name, fuelType: fuelType, year: year})
         };
 
         return new Promise((resolve, reject) => {
@@ -52,14 +52,13 @@ module.exports = function(host, port) {
     /**
      * Request Delete remove a car
      */
-    function remove() {
+    function remove(id) {
         var options =  {
             method: 'delete',
-            body: JSON.stringify({eee: "uuuuu"})
         };
 
         return new Promise((resolve, reject) => {
-            fetch(`http://${host}:${port}/api/cars`, options)
+            fetch(`http://${host}:${port}/api/cars/${id}`, options)
             .then(resolve).catch(reject)
         });
     }
@@ -67,14 +66,14 @@ module.exports = function(host, port) {
     /**
      * Request Put update a car
      */
-    function update(){
+    function update(id, name, fuelType, year){
         var options =  {
             method: 'put',
-            body: JSON.stringify({eee: "uuuuu"})
+            body: JSON.stringify({name: name, fuelType: fuelType, year: year})
         };
 
         return new Promise((resolve, reject) => {
-            fetch(`http://${host}:${port}/api/cars`, options)
+            fetch(`http://${host}:${port}/api/cars/${id}`, options)
             .then(resolve).catch(reject)
         });
     }
