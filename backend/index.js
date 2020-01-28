@@ -94,9 +94,14 @@ app.post('/api/cars', (req, res) =>{
           "fuelType": fuelType,
           "year": year          
         }
-
         pool.end();
-        res.status(201).send(car);
+
+        if(err == null){
+          res.status(201).send(car);
+        }else{
+          res.status(400).send();
+        }
+        
       })
 });
 
@@ -115,8 +120,13 @@ app.delete('/api/cars/:id', (req, res) =>{
 
     pool.query('DELETE FROM cars WHERE id = $1', [id], (err, result) => {
       pool.end();
-      res.status(204).send();
-    })
+
+      if(err == null){
+        res.status(204).send();
+      }else{
+        res.status(404).send();
+      }
+    });
 });
 
 /**
@@ -135,14 +145,19 @@ app.put('/api/cars/:id', (req, res) =>{
     var fuelType = req.body.fuelType;
     var year = req.body.year;
 
-    pool.query('UPDATE cars SET name = $1, fuelType = $2, year = $3 WHERE id = $4', [name, fuelType, year, id], (err, result) => {
-      pool.end();
-      if(err == null){
-        res.status(200).send();
-      }
-    })
-
-    res.status(404).send(err);
+    if(name != null && fuelType != null && year != null){
+      pool.query('UPDATE cars SET name = $1, fuelType = $2, year = $3 WHERE id = $4', [name, fuelType, year, id], (err, result) => {
+        pool.end();
+        if(err == null){
+          res.status(200).send();
+        }else{
+          res.status(404).send();
+        }
+      });
+    }else{
+      res.status(400).send();
+    }
+    
 });
 
 module.exports = app;
