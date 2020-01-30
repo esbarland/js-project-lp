@@ -9,27 +9,45 @@ import {
   Route
 } from "react-router-dom";
 
-
 import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
+
+const fetch = require("node-fetch");
 
 export default class App extends Component  {
 
     constructor(props) {
         super(props)
         this.state = { list: [] }
-        this.submit = this.submit.bind(this)
+        // Le bind permet de fixer le contexte au composant App sinon le this.setState dans le submit sera appelé dans le composant Add
+        this.submit = this.submit.bind(this);
+    }
+
+    componentDidMount() {
+        console.log("getAllCars: ");
+        this.getAllcars();
     }
 
     submit(event) {
         const data = new FormData(event.target);
+        // Enlève l'event par défaut (refresh de la page)
         event.preventDefault();
         history.push("/");
         this.setState((prevState, props) => {
             prevState.list = [...prevState.list, data.get('name')]
             return prevState
         })
+    }
+
+    getAllcars() {
+        fetch('/api/cars')        
+        .then(json => {
+            console.log("success")            ;
+            this.setState({
+                list: json
+            })    
+        });
     }
 
     render () {
