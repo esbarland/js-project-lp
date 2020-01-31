@@ -25,7 +25,6 @@ export default class App extends Component  {
     }
 
     componentDidMount() {
-        console.log("getAllCars: ");
         this.getAllcars();
     }
 
@@ -41,13 +40,19 @@ export default class App extends Component  {
     }
 
     getAllcars() {
-        fetch('/api/cars')        
-        .then(json => {
-            console.log("success")            ;
-            this.setState({
-                list: json
-            })    
-        });
+        const app = this;
+
+        fetch('/api/cars')
+            .then(function(response){
+                response.json().then(function(data) {
+                    app.setState({
+                        list: data
+                    })
+                  });            
+            })
+            .catch(function(err) {
+                console.log('Fetch Error: ', err);
+            });            
     }
 
     render () {

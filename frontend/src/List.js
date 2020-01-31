@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {
-    Link
-  } from "react-router-dom";
+import { Link } from "react-router-dom";
+import CarElement from './CarElement';
 
 export default class List extends React.Component {
 
@@ -13,13 +12,13 @@ export default class List extends React.Component {
     render() {
       return (
         <div>
-          <h1>List</h1>
+          <h1>Liste des voitures</h1>
+          <Link to="/add" className="btn btn-primary">Add</Link>
           <ul>
-            { this.props.list.map(function(element, index) {
-              return <li key={ index }>{ element }</li>
+            { this.props.list.map(function(item, key) {
+              return <CarElement key={key} car={item} />
             })}
           </ul>
-          <Link to="/add">Add</Link>
         </div>
       );
     }
