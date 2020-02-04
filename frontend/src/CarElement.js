@@ -5,7 +5,13 @@ import { Link } from "react-router-dom";
 export default class CarElement extends React.Component {
 
     constructor(props) {
-      super(props)
+      super(props);
+
+      this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(){      
+      this.props.deleteCar(this.props.car.id);
     }
 
     render() {
@@ -17,6 +23,7 @@ export default class CarElement extends React.Component {
             <div className="card-body">
                 <h5 className="card-title">Nom: {this.props.car.name}</h5>
                 <Link to={this.props.car.id} className="btn btn-primary">Plus</Link>
+                <button className="btn btn-danger" onClick={this.handleClick}>Supprimer</button>
             </div>
             <br/>
         </div>

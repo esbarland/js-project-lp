@@ -26,8 +26,11 @@ export default class Car extends React.Component {
 
     getOneCar(id){
         const app = this;
+        var options =  {
+            method: 'get',
+        };
 
-        fetch(`/api/cars/${id}`)
+        fetch(`/api/cars/${id}`, options)
             .then(function(response){
                 response.json().then(function(data) {
                     app.setState({

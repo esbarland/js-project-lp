@@ -29,7 +29,7 @@ export default class Add extends React.Component {
           <form onSubmit={this.props.submit}>              
 
               <div className="form-group">
-                <label forname="carName">Nom</label>
+                <label htmlFor="carName">Nom</label>
                 <input 
                   type="text" 
                   name="name" 
@@ -42,7 +42,7 @@ export default class Add extends React.Component {
                   required />
               </div>
               <div className="form-group">
-                <label forname="carFuelType">Type de carburant</label>
+                <label htmlFor="carFuelType">Type de carburant</label>
                 <input 
                   type="text" 
                   name="fuelType" 
@@ -54,7 +54,7 @@ export default class Add extends React.Component {
                   required />                
               </div>
               <div className="form-group">
-                <label forname="carYear">Année</label>
+                <label htmlFor="carYear">Année</label>
                 <input 
                   type="text" 
                   name="year" 
