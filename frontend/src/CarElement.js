@@ -16,7 +16,7 @@ export default class CarElement extends React.Component {
             </div>
             <div className="card-body">
                 <h5 className="card-title">Nom: {this.props.car.name}</h5>
-                <Link to={this.props.car.id} className="btn btn-primary disabled">Plus</Link>
+                <Link to={this.props.car.id} className="btn btn-primary">Plus</Link>
             </div>
             <br/>
         </div>

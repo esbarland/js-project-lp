@@ -1,0 +1,29 @@
+si le docker compose est crampé, il faut le rédémarrer en supprimant les fichiers:
+- docker-compose down --rmi all -v --remove-orphan
+
+############################
+
+lancer vdn avec: 
+	vdn docker-tmp
+démarrer la vm (start dans vdn)
+accéder à la vm: 
+	vdn-ssh root@debian-1
+
+commande à lancer dans la vm:
+	cd /home | mkdir toto | sshfs esbarland@192.168.126.28:/home/scratch/esbarland/js-project /home/toto
+	cd toto
+	docker-compose up
+
+###############################
+
+pour accéder au node du client:
+	docker-compose run client /bin/bash	
+
+pour restart le backend:
+	docker-compose restart backend
+
+###############################
+links:
+
+CRUD React app:
+https://www.taniarascia.com/crud-app-in-react-with-hooks/

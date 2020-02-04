@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS cars;
 CREATE TABLE "public"."cars" (
     "id" uuid NOT NULL,
     "name" character varying(250) NOT NULL,
-    "fueltype" character varying(250) NOT NULL,
+    "fuelType" character varying(250) NOT NULL,
     "year" integer,
     CONSTRAINT "firstkey" PRIMARY KEY ("id")
 ) WITH (oids = false);

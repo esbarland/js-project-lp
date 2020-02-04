@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 
-import List from './List'
-import Add from './Add'
+import List from './List';
+import Add from './Add';
+import Car from './Car';
 
-import {
-  Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 
 import { createBrowserHistory } from 'history';
 
@@ -33,10 +30,16 @@ export default class App extends Component  {
         // Enlève l'event par défaut (refresh de la page)
         event.preventDefault();
         history.push("/");
-        this.setState((prevState, props) => {
+
+        console.log("submit event data: ", data);
+        //post voiture
+
+        //update la liste avec la valeur de retour du post
+
+        /*this.setState((prevState, props) => {
             prevState.list = [...prevState.list, data.get('name')]
-            return prevState
-        })
+            return prevState;
+        })*/
     }
 
     getAllcars() {
@@ -48,12 +51,14 @@ export default class App extends Component  {
                     app.setState({
                         list: data
                     })
-                  });            
+                });            
             })
             .catch(function(err) {
                 console.log('Fetch Error: ', err);
             });            
     }
+
+
 
     render () {
         return (
@@ -65,6 +70,7 @@ export default class App extends Component  {
                     <Route exact path="/">
                         <List list={ this.state.list }/>
                     </Route>
+                    <Route exact path="/:id" component={Car} />
                 </Switch>
             </Router>
         )
