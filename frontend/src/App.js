@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import List from './List';
 import Add from './Add';
 import Car from './Car';
+import Edit from './Edit';
 
 import { Router, Switch, Route } from "react-router-dom";
 
@@ -20,6 +21,7 @@ export default class App extends Component  {
         // Le bind permet de fixer le contexte au composant App sinon le this.setState dans le submit sera appelé dans le composant Add
         this.submit = this.submit.bind(this);
         this.deleteCar = this.deleteCar.bind(this);
+        this.handleEditSubmit = this.handleEditSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -32,50 +34,63 @@ export default class App extends Component  {
         event.preventDefault();
         history.push("/");
 
-        var name = form.get('name');
-        var fuelType = form.get('fuelType');
-        var year = form.get('year');
-
-        console.log("submit event form: ", form.get('name'));
-        console.log("submit event form: ", form.get('fuelType'));
-        console.log("submit event form: ", form.get('year'));
-
-        var car = {            
-            name: name, 
-            fuelType: fuelType, 
-            year: year            
-        }
-
-        console.log("voiture: ", JSON.stringify(car));
+        var nameForm = form.get('name');
+        var fuelTypeForm = form.get('fuelType');
+        var yearForm = form.get('year');
 
         var options =  {
             method: 'post',
-            body: JSON.stringify(car),
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({name: nameForm, fuelType: fuelTypeForm, year: yearForm}),
         };
 
-        
-        //post voiture
-        //update la liste avec la valeur de retour du post
+        const app = this;
 
         fetch('/api/cars/', options)
             .then(function(response){
                 response.json().then(function(data) {
-                    console.log("add one car submit: ", data);
-                    /*app.setState({
-                        list: data
-                    })*/
-                });   
+                    app.setState((prevState, props) => {
+                        prevState.list = [...prevState.list, data]
+                        return prevState;
+                    })
+                });
             })
             .catch(function(err) {
                 console.log('Fetch Error: ', err);
             });  
+    }
 
-        
+    handleEditSubmit(event) {
+        const form = new FormData(event.target);
+        event.preventDefault();
+        history.push("/");
 
-        /*this.setState((prevState, props) => {
-            prevState.list = [...prevState.list, data.get('name')]
-            return prevState;
-        })*/
+        var nameForm = form.get('name');
+        var fuelTypeForm = form.get('fuelType');
+        var yearForm = form.get('year');
+    
+        var options =  {
+            method: 'put',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({name: nameForm, fuelType: fuelTypeForm, year: yearForm}),
+        };
+    
+        //const app = this;
+    
+        fetch(`/api/cars/${this.state.id}`, options)
+            .then(function(response){
+                response.json().then(function(data) {
+                  console.log("put response: ", data);
+                  //update de la liste
+                });
+            })
+            .catch(function(err) {
+                console.log('Fetch Error: ', err);
+            });  
     }
 
     getAllcars() {
@@ -98,22 +113,26 @@ export default class App extends Component  {
     }
 
 
-    deleteCar(id){        
+    deleteCar(id){     
+        const app = this;
+        
         var options =  {
             method: 'delete',
         };
 
         fetch(`/api/cars/${id}`, options)
-            .catch(function(err){
+            .then(function(){
+                var array = app.state.list.filter(function(item) {
+                    return item.id !== id
+                });
+                app.setState({
+                    list: array
+                });
+            }).catch(function(err){
                 console.log('Fetch Error: ', err);
             });
 
-        var array = this.state.list.filter(function(item) {
-            return item.id !== id
-        });
-        this.setState({
-            list: array
-        });
+            
     }
 
     render () {
@@ -127,6 +146,8 @@ export default class App extends Component  {
                         <List list={ this.state.list } deleteCar={this.deleteCar}/>
                     </Route>
                     <Route exact path="/:id" component={Car} />
+                    <Route exact path="/edit/:id" component={props => <Edit id={props.match.params.id} handleEditSubmit={this.handleEditSubmit} />} />
+
                 </Switch>
             </Router>
         )

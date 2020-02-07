@@ -23,6 +23,7 @@ export default class CarElement extends React.Component {
             <div className="card-body">
                 <h5 className="card-title">Nom: {this.props.car.name}</h5>
                 <Link to={this.props.car.id} className="btn btn-primary">Plus</Link>
+                <Link to={"/edit/" + this.props.car.id} className="btn btn-success">Editer</Link>
                 <button className="btn btn-danger" onClick={this.handleClick}>Supprimer</button>
             </div>
             <br/>
