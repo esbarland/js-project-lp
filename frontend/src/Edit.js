@@ -34,7 +34,7 @@ export default class Edit extends React.Component {
                 app.setState({
                     id: data.id,
                     name: data.name,
-                    fuelType: data.fuelType,
+                    fuelType: data.fueltype,
                     year: data.year
                 })
             });   
@@ -59,15 +59,15 @@ export default class Edit extends React.Component {
         <form onSubmit={this.props.handleEditSubmit}>    
         
           <div className="form-group">
-            <label htmlFor="carId">Id</label>
             <input 
               type="text" 
               name="id" 
               className="form-control" 
               id="carId" 
               placeholder="Id de la voiture"
-              value={this.state.id}                
-              disabled />
+              value={this.state.id}    
+              onChange={this.handleChange}            
+              hidden />
           </div>          
 
           <div className="form-group">

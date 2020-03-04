@@ -42,7 +42,7 @@ app.get('/api/cars', (req, res) =>{
             cars.push(result.rows[key]);
         }
 
-        res.send(cars);
+        res.status(200).send(cars);
       })
 });
 
@@ -84,14 +84,14 @@ app.post('/api/cars', (req, res) =>{
       })
       var uuid = uuidv4();
       var name = req.body.name;
-      var fuelType = req.body.fuelType;
+      var fueltype = req.body.fueltype;
       var year = req.body.year;
 
-      pool.query('INSERT INTO cars VALUES($1,$2,$3,$4)', [uuid, name, fuelType, year], (err, result) => {
+      pool.query('INSERT INTO cars VALUES($1,$2,$3,$4)', [uuid, name, fueltype, year], (err, result) => {
         var car = {
           "id": uuid,
           "name": name,
-          "fuelType": fuelType,
+          "fueltype": fueltype,
           "year": year          
         }
         pool.end();
@@ -142,14 +142,21 @@ app.put('/api/cars/:id', (req, res) =>{
 
     var id = req.params.id;
     var name = req.body.name;
-    var fuelType = req.body.fuelType;
+    var fueltype = req.body.fueltype;
     var year = req.body.year;
 
-    if(name != null && fuelType != null && year != null){
-      pool.query('UPDATE cars SET name = $1, fuelType = $2, year = $3 WHERE id = $4', [name, fuelType, year, id], (err, result) => {
+    if(name != null && fueltype != null && year != null){
+      pool.query('UPDATE cars SET name = $1, fueltype = $2, year = $3 WHERE id = $4', [name, fueltype, year, id], (err, result) => {
+        var car = {
+          "id": id,
+          "name": name,
+          "fueltype": fueltype,
+          "year": year          
+        }
         pool.end();
+
         if(err == null){
-          res.status(200).send();
+          res.status(200).send(car);
         }else{
           res.status(404).send();
         }

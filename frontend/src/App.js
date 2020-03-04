@@ -43,7 +43,7 @@ export default class App extends Component  {
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({name: nameForm, fuelType: fuelTypeForm, year: yearForm}),
+            body: JSON.stringify({name: nameForm, fueltype: fuelTypeForm, year: yearForm}),
         };
 
         const app = this;
@@ -67,6 +67,7 @@ export default class App extends Component  {
         event.preventDefault();
         history.push("/");
 
+        var idForm = form.get('id');
         var nameForm = form.get('name');
         var fuelTypeForm = form.get('fuelType');
         var yearForm = form.get('year');
@@ -76,16 +77,24 @@ export default class App extends Component  {
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({name: nameForm, fuelType: fuelTypeForm, year: yearForm}),
+            body: JSON.stringify({name: nameForm, fueltype: fuelTypeForm, year: parseInt(yearForm)}),
         };
     
-        //const app = this;
+        const app = this;
     
-        fetch(`/api/cars/${this.state.id}`, options)
+        fetch(`/api/cars/${idForm}`, options)
             .then(function(response){
                 response.json().then(function(data) {
-                  console.log("put response: ", data);
-                  //update de la liste
+                    for(var car in app.state.list){
+                        if(app.state.list[car].id == data.id){
+                            app.state.list.splice(car, 1);
+                        }
+                    }
+
+                    app.setState((prevState, props) => {
+                        prevState.list = [...prevState.list, data]
+                        return prevState;
+                    })
                 });
             })
             .catch(function(err) {

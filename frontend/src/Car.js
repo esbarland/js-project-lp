@@ -11,7 +11,7 @@ export default class Car extends React.Component {
           currentCar: {
               id: "",
               name: "",
-              fuelType: "",
+              fueltype: "",
               year: ""
           }
       }
@@ -50,7 +50,7 @@ export default class Car extends React.Component {
             <h2>Car display</h2>
             <h5>Id: {this.state.currentCar.id}</h5>
             <h5>Nom: {this.state.currentCar.name}</h5>
-            <h5>Carburant: {this.state.currentCar.fuelType}</h5>
+            <h5>Carburant: {this.state.currentCar.fueltype}</h5>
             <h5>Année: {this.state.currentCar.year}</h5>
         </div>
       );
